@@ -39,15 +39,16 @@ body {
 
 .header h1 {
   /* Non-accessible color */
-  color: #edc84b;
-  /* color: #af8602; */
+  /* color: #edc84b; */
+  color: #af8602;
 
   text-transform: uppercase;
   text-align: center;
   font-size: 5.2rem;
-  font-weight: 300;
+  /* font-weight: 300; */
+  font-weight: bold;
   letter-spacing: 3px;
-  position: relative;
+  /* position: relative; */
   width: 100%;
   display: block;
 }
@@ -178,6 +179,9 @@ body {
   background-color: #e9bb24;
 }
 
+.searchBar {
+  padding: 10px;
+}
 /*
 SPACING SYSTEM (px)
 2 / 4 / 8 / 12 / 16 / 24 / 32 / 40 / 48 / 64 / 80 / 96 / 128

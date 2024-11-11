@@ -1,15 +1,19 @@
-import React from "react";
+import React, {useState} from "react";
 import ReactDOM from "react-dom/client";
 import './index.css';
 
 function Header() {
-  return <h1 style={{color: 'orange', fontSize: '48px', textTransform: "uppercase"}}>Andy's Pizza Co.</h1>;
+  return(
+    <div className="header">
+      <h1>PWINT KO OO's Pizza Co.</h1>
+    </div>
+  )
 }
 
 function Pizza({img, name, desc, price}) {
   return (
     <div className="pizza">
-      <img src={img}/>
+      <img src={img} alt={name}/>
       <h3>{name}</h3>
       <p>{desc}</p>
       <p>{price}</p>
@@ -17,7 +21,7 @@ function Pizza({img, name, desc, price}) {
   );
 }
 
-function Menu({isOpen}) {
+function Menu() {
   const pizzas = [
     {
       img : '/pizzas/focaccia.jpg',
@@ -57,12 +61,32 @@ function Menu({isOpen}) {
     }
   ];
 
+  const currentHour = new Date().getHours();
+  // let currentHour = 9;
+  const isOpen = currentHour >= 10 && currentHour <= 22;
+
+  const [searchPizza, setSearchPizza] = useState('');
+
+  const handleSearchChange = (event) => {
+    setSearchPizza(event.target.value);
+  };
+
+  const filteredPizzas = pizzas.filter(pizza => 
+    pizza.name.toLowerCase().includes(searchPizza.toLowerCase())
+  );
+
   return (
     <div className='menu'>
       <h2>Our Menu</h2>
       { isOpen && <h3>Authentic Italian cuisine, all from our stone oven</h3>}
+      <input className="searchBar"
+        type = 'text'
+        placeholder="Search for a pizza..."
+        value = {searchPizza}
+        onChange={handleSearchChange}
+      />
       <div className="pizzas">
-        {pizzas.map(pizza => (
+        {filteredPizzas.map(pizza => (
           <Pizza
             img = {pizza.img}
             name = {pizza.name}
@@ -75,36 +99,30 @@ function Menu({isOpen}) {
   )
 }
 
-function Footer({isOpen}) {
-  return (
-    <footer className='footer'>
-      <Order isOpen = {isOpen}/>
-    </footer>
+function Footer() {
+  const currentHour = new Date().getHours();
+  // let currentHour = 9;
+  const msg = (currentHour >= 10 && currentHour <= 22 ? <Order/> : "Sorry we're closed"); 
+  return(
+    <footer className='footer'>{msg}</footer>
   )
 }
 
-function Order({isOpen}) {
+function Order() {
   return(
     <div className="order">
-      { isOpen ? (
-        <>
-          <h3>We're currently open</h3>
-          <button className="btn">Order</button>
-        </>) : ( 
-          "Sorry we're closed")}
+      <h3>We're currently open</h3>
+      <button className='btn'>Order</button>
     </div>
   )
 }
 
 function App() {
-  // const currentHour = new Date().getHours();
-  let currentHour = 11;
-  const isOpen = currentHour >= 10 && currentHour <= 22;
   return (
     <div className='container'>
       <Header />
-      <Menu isOpen={isOpen}/>
-      <Footer isOpen={isOpen}/>
+      <Menu/>
+      <Footer/>
     </div>
   );
 }
